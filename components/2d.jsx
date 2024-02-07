@@ -17,13 +17,13 @@ const TwoD = ({
   const drawStep = (ctx, i) => {
     ctx.strokeRect(
       i * stepDepth,
-      -i * stepHeight + offset - treadThickness, 
+      -i * stepHeight + offset - ( i * treadThickness ) + treadThickness, 
       riserThickness,
-      stepHeight - treadThickness,
+      stepHeight, 
     ); // riser
     ctx.strokeRect(
       i * stepDepth - nosing,
-      -i * stepHeight + offset - treadThickness * 2,
+      -i * stepHeight + offset - (i * treadThickness) ,
       stepDepth + nosing + riserThickness,
       treadThickness,
     ); // tread
