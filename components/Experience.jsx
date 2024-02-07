@@ -12,7 +12,7 @@ import * as THREE from "three";
 import palettes from "nice-color-palettes";
 import { useControls } from "leva";
 
-const Experience = ({stepHeight, stepWidth, stepDepth, numSteps}) => {
+const Experience = ({stepHeight, stepWidth, stepDepth, numSteps, colorSetCallback}) => {
   const [color, setColor] = useState("#FED86B");
   const [showMenu, setShowMenu] = useState({ state: "hidden", x: 0, y: 0 });
   return (
@@ -45,11 +45,10 @@ const Experience = ({stepHeight, stepWidth, stepDepth, numSteps}) => {
                     <meshPhysicalMaterial color={color} />
                   </Box>
                 ))}
-              {/* // <Box onClick={(e)=>setShowMenu({state:'visible', x: e.clientX, y: e.clientY})}><meshPhysicalMaterial color={color}/></Box> */}
             </Stage>
           </PresentationControls>
           {/* <OrbitControls /> */}
-          <CameraRig />
+          {/* <CameraRig /> */}
           <BackGround color={color} />
         </Canvas>
         {showMenu.state === "visible" ? (
@@ -58,6 +57,7 @@ const Experience = ({stepHeight, stepWidth, stepDepth, numSteps}) => {
             y={showMenu.y}
             callback={setColor}
             hideCallback={setShowMenu}
+            colorSetCallback={colorSetCallback}
           />
         ) : (
           <></>
@@ -67,7 +67,7 @@ const Experience = ({stepHeight, stepWidth, stepDepth, numSteps}) => {
   );
 };
 
-const ColorMenu = ({ x, y, callback, hideCallback }) => {
+const ColorMenu = ({ x, y, callback, hideCallback, colorSetCallback }) => {
   const colors = palettes[Math.floor(Math.random() * palettes.length)];
   return (
     <div
@@ -84,7 +84,7 @@ const ColorMenu = ({ x, y, callback, hideCallback }) => {
             style={{
               background: `linear-gradient(to bottom, ${value}, grey)`,
             }}
-            onClick={() => callback(value)}
+            onClick={() => {callback(value); colorSetCallback(value)}}
             title={value}
           ></button>
         );

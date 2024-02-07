@@ -2,17 +2,19 @@
 import React, { useEffect, useRef } from "react";
 import { useControls } from "leva";
 
-const TwoD = ({stepHeight, stepWidth, stepDepth, numSteps}) => {
+const TwoD = ({stepHeight, stepWidth, stepDepth, numSteps, color}) => {
   const canvas = useRef();
   const factor = 20;
   const drawStep = (ctx, x, y , i) => {
-    ctx.fillRect(x + 10, y + 500, stepDepth * factor, stepHeight * factor);
+    ctx.fillRect(x + 10, y + 500, 10, stepHeight * factor + 10);
+    ctx.fillRect(x , y + 500, stepDepth * factor + 10, 10);
   };
   useEffect(() => {
     const ctx = canvas.current.getContext("2d");
     canvas.current.width = canvas.current.clientWidth;
     canvas.current.height = canvas.current.clientHeight;
     ctx.imageSmoothingEnabled = false;
+    ctx.fillStyle = color;
     for(let  i = 0; i < numSteps; i++){
       drawStep(ctx, factor * stepDepth * i, -factor * stepHeight * i, i);
     }

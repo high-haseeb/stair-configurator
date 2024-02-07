@@ -2,6 +2,7 @@
 import TwoD from "@/components/2d";
 import Experience from "@/components/Experience";
 import { useControls } from "leva";
+import { useState } from "react";
 
 export default function Home() {
   const { stepHeight, stepWidth, stepDepth, numSteps } = useControls({
@@ -20,6 +21,7 @@ export default function Home() {
       step: 1,
     },
   });
+  const [color, setColor] = useState('black');
   return (
     <div className="w-screen h-screen flex ">
       <TwoD
@@ -27,8 +29,10 @@ export default function Home() {
         stepHeight={stepHeight}
         numSteps={numSteps}
         stepDepth={stepDepth}
+        color={color}
       />
       <Experience 
+        colorSetCallback={setColor}
         stepWidth={stepWidth}
         stepHeight={stepHeight}
         numSteps={numSteps}
