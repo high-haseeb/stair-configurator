@@ -2,25 +2,60 @@
 import React, { useEffect, useRef } from "react";
 import { useControls } from "leva";
 
-const TwoD = ({stepHeight, stepWidth, stepDepth, numSteps, color}) => {
+const TwoD = ({
+  stepHeight,
+  stepWidth,
+  stepDepth,
+  numSteps,
+  riserThickness,
+  treadThickness,
+  nosing,
+  material,
+}) => {
   const canvas = useRef();
-  const factor = 20;
-  const drawStep = (ctx, x, y , i) => {
-    ctx.fillRect(x + 10, y + 500, 10, stepHeight * factor + 10);
-    ctx.fillRect(x , y + 500, stepDepth * factor + 10, 10);
+  const offset = 500;
+  const drawStep = (ctx, i) => {
+    ctx.strokeRect(
+      i * stepDepth,
+      -i * stepHeight + offset - treadThickness,
+      riserThickness,
+      stepHeight,
+    ); // riser
+    ctx.strokeRect(
+      i * stepDepth - nosing,
+      -i * stepHeight + offset - treadThickness * 2,
+      stepDepth + nosing,
+      treadThickness,
+    ); // tread
   };
   useEffect(() => {
     const ctx = canvas.current.getContext("2d");
     canvas.current.width = canvas.current.clientWidth;
     canvas.current.height = canvas.current.clientHeight;
+    
     ctx.imageSmoothingEnabled = false;
-    ctx.fillStyle = color;
-    for(let  i = 0; i < numSteps; i++){
-      drawStep(ctx, factor * stepDepth * i, -factor * stepHeight * i, i);
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    for (let i = 0; i < numSteps; i++) {
+      drawStep(ctx, i);
     }
-  }, [stepDepth, stepHeight, numSteps]);
+  }, [
+    stepHeight,
+    stepWidth,
+    stepDepth,
+    numSteps,
+    riserThickness,
+    treadThickness,
+    nosing,
+    material,
+  ]);
 
-  return <canvas ref={canvas} className="w-full h-full"></canvas>;
+  return (
+    <div className="w-full h-full p-20">
+      <canvas ref={canvas} className="w-full h-full"></canvas>
+    </div>
+  );
 };
 
 export default TwoD;
