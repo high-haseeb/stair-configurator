@@ -20,9 +20,10 @@ export const Experience = ({
   treadThickness,
   nosing,
   material,
+  ...props
 }) => {
   return (
-    <div className="w-full h-full">
+    <div {...props}>
       <Suspense
         fallback={
           <div className="w-full h-full bg-black flex items-center justify-center text-white text-9xl">
@@ -30,6 +31,7 @@ export const Experience = ({
           </div>
         }
       >
+        <div className="m-4">3d veiw</div>
         <Canvas className="w-full h-full">
           <PresentationControls>
             <Stage preset={"portrait"} environment={"city"}>
@@ -83,7 +85,11 @@ const Stair = ({
         .map((_, i) => (
           <>
             <Box
-              position={[0, i * stepHeight, i * -stepDepth]}
+              position={[
+                0,
+                (i * stepHeight) + (i * treadThickness), 
+                i * -stepDepth,
+              ]}
               args={[stepWidth, stepHeight, riserThickness]}
             >
               {material === "wood" ? (
@@ -96,15 +102,15 @@ const Stair = ({
               radius={5}
               position={[
                 0,
-                i * stepHeight + stepHeight * 0.5 + treadThickness * 0.5,
-                i * -stepDepth - stepDepth * 0.5 + nosing * 0.5,
+                (i * stepHeight) + (stepHeight/2) + (i * treadThickness) + (treadThickness / 2), 
+                (i * stepDepth * -1) - (stepDepth / 2) + (nosing / 2), //x 
               ]}
               args={[stepWidth, treadThickness, stepDepth + nosing]}
             >
               {material === "wood" ? (
-                <meshStandardMaterial {...wood} attach={'material'} />
+                <meshStandardMaterial {...wood} attach={"material"} />
               ) : (
-                <meshStandardMaterial {...treadMaterial} attach={'material'} />
+                <meshStandardMaterial {...treadMaterial} attach={"material"} />
               )}
             </RoundedBox>
           </>
