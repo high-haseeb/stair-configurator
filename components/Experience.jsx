@@ -12,26 +12,14 @@ import * as THREE from "three";
 import palettes from "nice-color-palettes";
 import { useControls } from "leva";
 
-const Experience = () => {
+const Experience = ({stepHeight, stepWidth, stepDepth, numSteps}) => {
   const [color, setColor] = useState("#FED86B");
   const [showMenu, setShowMenu] = useState({ state: "hidden", x: 0, y: 0 });
-  const { stepHeight, stepWidth, stepDepth, numSteps } = useControls({
-    stepHeight: 0.8,
-    stepWidth: 4,
-    stepDepth: 1,
-    numSteps: {
-      value: 4,
-      min: 1,
-      max: 10,
-      step: 1,
-    },
-  });
-  console.log(numSteps);
   return (
-    <div className="w-screen h-screen">
+    <div className="w-full h-full">
       <Suspense
         fallback={
-          <div className="w-screen h-screen bg-black flex items-center justify-center text-white text-9xl">
+          <div className="w-full h-full bg-black flex items-center justify-center text-white text-9xl">
             Loading...
           </div>
         }
