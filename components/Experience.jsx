@@ -95,7 +95,7 @@ const Stair = ({
               position={[
                 0,
                 (i * stepHeight) + (i * treadThickness), 
-                i * -stepDepth,
+                i * -stepDepth - (treadThickness / 2) + (riserThickness / 2),
               ]}
               args={[stepWidth, stepHeight, riserThickness]}
             >
