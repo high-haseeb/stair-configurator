@@ -14,22 +14,29 @@ const Sideveiw = ({
 }) => {
   const canvas = useRef();
 
-  const drawStep = (ctx, i) => {
-    const centerX = canvas.current.width / 2;
-    const centerY = canvas.current.height / 2;
+const drawStep = (ctx, i) => {
+  const scale = Math.max(1 / numSteps * 5, 0.1)
+  const centerX = canvas.current.width / 2;
+  const centerY = canvas.current.height / 2;
 
-    const verticalOffset = centerY + (numSteps * stepHeight + (numSteps - 1)) / 2;
-    const horizontalOffset = centerX - (numSteps * stepDepth + (numSteps - 1)) / 2;
+  const scaledStepHeight = stepHeight * scale;
+  const scaledStepDepth = stepDepth * scale;
+  const scaledRiserThickness = riserThickness * scale;
+  const scaledTreadThickness = treadThickness * scale;
+  const scaledNosing = nosing * scale;
 
-    for (let i = 0; i < numSteps; i++) {
-      const riserX = horizontalOffset + i * stepDepth;
-      const riserY = verticalOffset - (i + 1) * stepHeight - (i * treadThickness) + treadThickness;  
-      const treadX = riserX - nosing;
-      const treadY = verticalOffset - (i + 1) * stepHeight - (i * treadThickness);
-      ctx.strokeRect(riserX, riserY, riserThickness, stepHeight);
-      ctx.strokeRect(treadX, treadY, stepDepth + nosing + riserThickness, treadThickness);
-    }
-  };
+  const verticalOffset = centerY + (numSteps * scaledStepHeight + (numSteps - 1)) / 2;
+  const horizontalOffset = centerX - (numSteps * scaledStepDepth + (numSteps - 1)) / 2;
+
+  for (let i = 0; i < numSteps; i++) {
+    const riserX = horizontalOffset + i * scaledStepDepth;
+    const riserY = verticalOffset - (i + 1) * scaledStepHeight - (i * scaledTreadThickness) + scaledTreadThickness;  
+    const treadX = riserX - scaledNosing;
+    const treadY = verticalOffset - (i + 1) * scaledStepHeight - (i * scaledTreadThickness);
+    ctx.strokeRect(riserX, riserY, scaledRiserThickness, scaledStepHeight);
+    ctx.strokeRect(treadX, treadY, scaledStepDepth + scaledNosing + scaledRiserThickness, scaledTreadThickness);
+  }
+};
 
   useEffect(() => {
     const ctx = canvas.current.getContext("2d");

@@ -24,21 +24,21 @@ const Topveiw = ({
     ctx.lineWidth = 2;
 
     // Calculate scaleFactor
-    const scaleFactor = 4;
-    const scaledStepWidth = stepWidth / scaleFactor;
-    const scaledStepDepth = stepDepth / scaleFactor;
+    const scaleFactor =  Math.max(0.1, 1 / numSteps)
+    const scaledStepWidth = stepWidth * scaleFactor;
+    const scaledStepDepth = stepDepth * scaleFactor;
+    const scaledNosing = nosing * scaleFactor;
 
     // Draw rounded rectangles for each step
-    const totalHeight = numSteps * (scaledStepDepth + nosing);
+    const totalHeight = numSteps * (scaledStepDepth + scaledNosing);
     for (let i = 0; i < numSteps; i++) {
-      const stepY = centerY - totalHeight / 2 + i * (scaledStepDepth + nosing);
+      const stepY = centerY - totalHeight / 2 + i * (scaledStepDepth + scaledNosing);
       ctx.beginPath();
-      ctx.roundRect(
+      ctx.strokeRect(
         centerX - scaledStepWidth / 2,
         stepY,
         scaledStepWidth,
-        scaledStepDepth + nosing,
-        [10, 10, 0, 0]
+        scaledStepDepth + scaledNosing,
       );
       ctx.stroke();
     }
